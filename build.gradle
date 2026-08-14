@@ -1,0 +1,73 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	constraints {
+		// springdoc-openapi/swagger-core pulls an older Jackson 2 transitively that conflicts
+		// with Boot 4's Jackson 3 compat bridge (NoClassDefFoundError: JsonSerializeAs).
+		// Force a newer, compatible Jackson 2 version across the whole dependency tree.
+		implementation 'com.fasterxml.jackson.core:jackson-annotations:2.19.0'
+		implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
+		implementation 'com.fasterxml.jackson.core:jackson-core:2.19.0'
+	}
+
+	// Spring Boot Web + MVC
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+
+	// Spring Boot Data JPA (Hibernate included)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Security + Validation
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// JWT (JJWT library)
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+	// OAuth2 client
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Database driver (PostgreSQL)
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// API documentation (Swagger UI / OpenAPI 3) — v3.x line supports Spring Boot 4.
+	// Single declaration only — exclude its transitive Jackson 2 so the `constraints`
+	// block above (and Boot's own managed Jackson 3) fully control the version instead.
+	implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3') {
+		exclude group: 'com.fasterxml.jackson.core'
+	}
+
+	// Testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+	useJUnitPlatform()
+	failOnNoDiscoveredTests = false
+}

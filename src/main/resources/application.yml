@@ -1,0 +1,56 @@
+server:
+  port: 8010
+
+spring:
+  application:
+    name: ecouture-services
+
+  datasource:
+    url: jdbc:postgresql://46.250.226.123:5432/ecouturedb
+    username: emma
+    password: secret123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+# security
+# spring.security.oauth2.client.registration.github.client-id: Ov23liAguyPXsIlyUjGz
+# spring.security.oauth2.client.registration.github.client-secret: da3d9d961a5ff5e383d80e759deb4832963ca084
+# spring.security.oauth2.client.registration.github.scope: read:user,user:email
+#
+# spring.security.oauth2.client.provider.github.authorization-uri: https://github.com/login/oauth/authorize
+# spring.security.oauth2.client.provider.github.token-uri: https://github.com/login/oauth/access_token
+# spring.security.oauth2.client.provider.github.user-info-uri: https://api.github.com/user
+# spring.security.oauth2.client.provider.github.user-name-attribute: id
+
+app:
+  jwt:
+    # Generated placeholder (base64, 256-bit) - regenerate your own with: openssl rand -base64 32
+    secret: yXq5kRUylOpuViPTWzApzxUnF9Hl6BWPjp8l08AVbvc=
+    expiration-ms: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    persistAuthorization: true # keeps your Bearer token filled in across page refreshes
