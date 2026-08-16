@@ -2,6 +2,9 @@ server:
   port: 8010
 
 spring:
+  cloud:
+    vault:
+      enabled:false
   application:
     name: ecouture-services
 

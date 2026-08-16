@@ -17,6 +17,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	springCloudVersion = '2025.1.2'
+}
+
 dependencies {
 	constraints {
 		// springdoc-openapi/swagger-core pulls an older Jackson 2 transitively that conflicts
@@ -34,6 +38,9 @@ dependencies {
 	// Spring Boot Data JPA (Hibernate included)
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	// added for hashicorp or vault implementation
+	implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
+
 	// Security + Validation
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -45,6 +52,9 @@ dependencies {
 
 	// OAuth2 client
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// HashiCorp Vault
+	implementation 'org.springframework.cloud:spring-cloud-starter-vault-config'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -65,6 +75,12 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 test {
