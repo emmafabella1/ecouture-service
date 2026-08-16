@@ -4,7 +4,10 @@ server:
 spring:
   cloud:
     vault:
-      enabled:false
+      token: hvs.9UipDGy2Y9ypyd4FrXGq9ttO
+      host: 46.250.226.123
+      port: 8200
+      scheme: http
   application:
     name: ecouture-services
 
