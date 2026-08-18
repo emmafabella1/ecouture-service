@@ -8,6 +8,11 @@ spring:
       host: 46.250.226.123
       port: 8200
       scheme: http
+  kafka:
+    bootstrap-servers: 46.250.226.123:14344
+    consumer:
+      group-id: employee-group
+      auto-offset-reset: earliest
   application:
     name: ecouture-services
 
@@ -33,7 +38,7 @@ management:
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
 
 # security
 # spring.security.oauth2.client.registration.github.client-id: Ov23liAguyPXsIlyUjGz
